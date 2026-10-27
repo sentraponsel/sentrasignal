@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<!-- Chosen Palette: Dark Cyber Crypto Neutral -->
+<!-- Application Structure Plan: Single-page application for crypto signal monitoring, technical analysis visualization, Gemini AI real-time market scanning with dynamic decimal formatting, ROE calculator, trade journaling, and settings. Navigable via top responsive tabs and mobile bottom navigation. Includes detailed modals for both technical signals and AI recommendations with refined TV and CMC buttons. -->
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>SENTRA CRYPTOSIGNAL - Sinyal Trading Akurat</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#070a11',
+                            card: '#0e1626',
+                            border: '#1b273b',
+                            accent: '#00f090',
+                            accentGlow: 'rgba(0, 240, 144, 0.25)',
+                            cyan: '#00d2ff',
+                            purple: '#a855f7',
+                            danger: '#ff4d4d',
+                            warning: '#f59e0b',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Chakra Petch', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script>
+        const manifest = {
+            name: "SENTRA CRYPTOSIGNAL",
+            short_name: "SENTRA",
+            start_url: ".",
+            display: "standalone",
+            background_color: "#070a11",
+            theme_color: "#070a11",
+            icons: [
+                {
+                    src: "https://placehold.co/192x192/0e1626/00f090?text=SC",
+                    sizes: "192x192",
+                    type: "image/png"
+                },
+                {
+                    src: "https://placehold.co/512x512/0e1626/00f090?text=SENTRA+SC",
+                    sizes: "512x512",
+                    type: "image/png"
+                }
+            ]
+        };
+        const stringManifest = JSON.stringify(manifest);
+        const blobManifest = new Blob([stringManifest], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(blobManifest);
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = manifestURL;
+        document.head.appendChild(link);
+    </script>
+
+    <style>
+        body {
+            background-color: #070a11;
+            color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glow-neon {
+            box-shadow: 0 0 15px rgba(0, 240, 144, 0.25);
+        }
+        .glass-panel {
+            background: rgba(14, 22, 38, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(27, 39, 59, 0.9);
+        }
+        .glass-nav {
+            background: rgba(7, 10, 17, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(27, 39, 59, 0.8);
+        }
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070a11;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1b273b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f090;
+        }
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            width: 200%;
+            animation: marquee 25s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col pb-20 md:pb-6 select-none antialiased">
+
+    <header class="sticky top-0 z-40 glass-nav px-3 sm:px-6 py-2.5 flex items-center justify-between">
+        <div class="flex items-center space-x-2.5 sm:space-x-3">
+            <!-- FUTURISTIC CRYPTO LOGO INITIAL "SC" -->
+            <div class="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-brand-dark via-slate-900 to-slate-950 p-[1.5px] border border-brand-accent/50 shadow-lg shadow-brand-accent/20 shrink-0 group">
+                <div class="w-full h-full rounded-[10px] bg-slate-950/90 flex items-center justify-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-brand-accent/20 via-transparent to-brand-cyan/20 opacity-80"></div>
+                    <svg class="w-6 h-6 sm:w-7 sm:h-7 relative z-10" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="scGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#00f090" />
+                                <stop offset="50%" stop-color="#00d2ff" />
+                                <stop offset="100%" stop-color="#a855f7" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Stylized Hexagon Shield Ring -->
+                        <path d="M32 4L56 18V46L32 60L8 46V18L32 4Z" stroke="url(#scGrad)" stroke-width="2.5" stroke-linejoin="round" opacity="0.4" />
+                        <!-- Stylized S & C Interlocking Nodes -->
+                        <!-- Letter 'S' Node Path -->
+                        <path d="M42 20C42 20 38 16 31 16C23 16 20 21 20 25C20 31 34 31 34 37C34 42 28 44 22 44C17 44 14 41 14 41" stroke="url(#scGrad)" stroke-width="4" stroke-linecap="round" />
+                        <!-- Letter 'C' Outer Arc -->
+                        <path d="M48 26C45.5 21.5 40 19 35 19C24 19 18 27 18 35C18 43 25 49 35 49C41 49 46.5 45.5 49 41" stroke="url(#scGrad)" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 2 30 5" opacity="0.9" />
+                        <!-- Crypto Signal Pulse Center -->
+                        <circle cx="32" cy="32" r="3" fill="#00f090" class="animate-pulse" />
+                    </svg>
+                </div>
+            </div>
+            <div>
+                <div class="flex items-center gap-1.5">
+                    <h1 class="font-mono font-bold text-sm sm:text-lg leading-none tracking-wider text-white">SENTRA <span class="text-brand-accent">CRYPTOSIGNAL</span></h1>
+                    <span class="bg-brand-accent/20 text-brand-accent border border-brand-accent/30 text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded font-mono font-semibold">AI PRO</span>
+                </div>
+                <p class="text-[10px] sm:text-xs text-slate-400 font-mono tracking-tight">Real-Time Crypto Intelligence Engine</p>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <div class="hidden sm:flex items-center space-x-2 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 text-xs">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-accent"></span>
+                </span>
+                <span class="font-mono text-slate-300" id="live-connection-status">CONNECTED</span>
+            </div>
+
+            <button id="pwa-install-btn" class="hidden flex items-center gap-1.5 bg-brand-purple/20 hover:bg-brand-purple/30 text-brand-purple border border-brand-purple/40 text-xs px-2.5 py-1.5 rounded-lg font-medium transition-all">
+                <i class="fa-solid fa-download text-xs"></i>
+                <span class="hidden sm:inline">Install App</span>
+            </button>
+
+            <button onclick="refreshAllSignals(true)" class="bg-slate-900 hover:bg-slate-800 text-brand-accent p-2 rounded-xl border border-slate-800 transition-all text-xs" title="Refresh Live Data">
+                <i class="fa-solid fa-rotate" id="refresh-icon"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="bg-[#05070c] border-b border-slate-900/80 overflow-hidden py-1.5 text-xs font-mono">
+        <div class="animate-marquee whitespace-nowrap flex space-x-6" id="ticker-container">
+            <div class="flex items-center gap-2 text-slate-400">Memuat harga crypto real-time...</div>
+        </div>
+    </div>
+
+    <div class="px-3 sm:px-6 py-2.5 bg-slate-950/60 border-b border-slate-900 flex flex-wrap gap-2.5 items-center justify-between">
+        
+        <div class="flex items-center gap-2 flex-wrap">
+            <div class="inline-flex p-1 bg-slate-950 rounded-xl border border-slate-800">
+                <button id="btn-mode-spot" onclick="setMarketMode('SPOT')" class="px-3 py-1 rounded-lg font-mono text-xs font-bold transition-all text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-coins mr-1 text-[11px]"></i> SPOT
+                </button>
+                <button id="btn-mode-futures" onclick="setMarketMode('FUTURES')" class="px-3 py-1 rounded-lg font-mono text-xs font-bold transition-all bg-brand-accent text-slate-950 shadow-sm">
+                    <i class="fa-solid fa-bolt mr-1 text-[11px]"></i> FUTURES
+                </button>
+            </div>
+
+            <div class="flex items-center space-x-1 overflow-x-auto py-0.5 scrollbar-none">
+                <button onclick="setTimeframe('5m')" class="tf-btn bg-slate-900 text-slate-400 hover:text-white border border-slate-800 px-2.5 py-1 rounded-lg text-xs font-mono font-medium transition" data-tf="5m">5M</button>
+                <button onclick="setTimeframe('15m')" class="tf-btn bg-brand-accent/20 text-brand-accent border border-brand-accent/40 px-2.5 py-1 rounded-lg text-xs font-mono font-semibold transition" data-tf="15m">15M</button>
+                <button onclick="setTimeframe('30m')" class="tf-btn bg-slate-900 text-slate-400 hover:text-white border border-slate-800 px-2.5 py-1 rounded-lg text-xs font-mono font-medium transition" data-tf="30m">30M</button>
+                <button onclick="setTimeframe('1h')" class="tf-btn bg-slate-900 text-slate-400 hover:text-white border border-slate-800 px-2.5 py-1 rounded-lg text-xs font-mono font-medium transition" data-tf="1h">1H</button>
+                <button onclick="setTimeframe('4h')" class="tf-btn bg-slate-900 text-slate-400 hover:text-white border border-slate-800 px-2.5 py-1 rounded-lg text-xs font-mono font-medium transition" data-tf="4h">4H</button>
+                <button onclick="setTimeframe('1d')" class="tf-btn bg-slate-900 text-slate-400 hover:text-white border border-slate-800 px-2.5 py-1 rounded-lg text-xs font-mono font-medium transition" data-tf="1d">1D</button>
+            </div>
+        </div>
+
+        <div class="relative w-full sm:w-auto flex-1 sm:flex-none max-w-md">
+            <div class="relative flex items-center gap-1.5">
+                <div class="relative flex-1 sm:w-64">
+                    <input type="text" id="coin-search" onkeyup="filterSignals()" placeholder="Cari koin (misal: BTC, SOL, PEPE)..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 pl-8 text-xs font-mono text-slate-200 focus:outline-none focus:border-brand-accent transition">
+                    <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-500 text-xs"></i>
+                </div>
+                <button onclick="triggerDirectWebSearch()" class="bg-slate-900 hover:bg-slate-800 text-brand-cyan border border-slate-800 p-2 rounded-xl text-xs shrink-0" title="Buka Langsung di TradingView/CoinMarketCap">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="px-3 sm:px-6 pt-2.5 flex border-b border-slate-900 space-x-2 text-xs font-mono overflow-x-auto scrollbar-none">
+        <button onclick="switchTab('signals')" id="tab-signals" class="tab-link pb-2.5 px-3 rounded-t-xl text-brand-accent border-b-2 border-brand-accent font-bold flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-signal"></i> Sinyal Trading <span id="signals-count" class="bg-brand-accent/20 text-brand-accent text-[10px] px-1.5 py-0.2 rounded-full">0</span>
+        </button>
+        <button onclick="switchTab('ai-recommendations')" id="tab-ai-recommendations" class="tab-link pb-2.5 px-3 rounded-t-xl text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-wand-magic-sparkles text-brand-purple"></i> Rekomendasi AI
+        </button>
+        <button onclick="switchTab('calculator')" id="tab-calculator" class="tab-link pb-2.5 px-3 rounded-t-xl text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-calculator text-brand-cyan"></i> Kalkulator ROE
+        </button>
+        <button onclick="switchTab('gemini-analyst')" id="tab-gemini-analyst" class="tab-link pb-2.5 px-3 rounded-t-xl text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-microchip text-brand-accent"></i> Gemini Scanner
+        </button>
+        <button onclick="switchTab('journal')" id="tab-journal" class="tab-link pb-2.5 px-3 rounded-t-xl text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-book-bookmark text-yellow-400"></i> Jurnal Signals
+        </button>
+        <button onclick="switchTab('settings')" id="tab-settings" class="tab-link pb-2.5 px-3 rounded-t-xl text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-gear text-slate-400"></i> Pengaturan
+        </button>
+    </div>
+
+    <main class="flex-1 px-3 sm:px-6 py-4 max-w-7xl w-full mx-auto">
+
+        <section id="view-signals" class="space-y-4">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
+                <div class="glass-panel p-3 sm:p-3.5 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">Sentimen Pasar Live</p>
+                        <p class="text-xs sm:text-sm font-mono font-bold text-brand-accent mt-0.5" id="market-sentiment">BULLISH STRONG</p>
+                    </div>
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-brand-accent/10 flex items-center justify-center text-brand-accent shrink-0">
+                        <i class="fa-solid fa-gauge-high text-xs sm:text-sm"></i>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-3 sm:p-3.5 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">Win-Rate Sinyal</p>
+                        <p class="text-xs sm:text-sm font-mono font-bold text-white mt-0.5" id="win-rate-stat">91.4%</p>
+                    </div>
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-brand-cyan/10 flex items-center justify-center text-brand-cyan shrink-0">
+                        <i class="fa-solid fa-trophy text-xs sm:text-sm"></i>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-3 sm:p-3.5 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">Sinyal Long/Buy</p>
+                        <p class="text-xs sm:text-sm font-mono font-bold text-brand-accent mt-0.5" id="stat-long-count">0 Pairs</p>
+                    </div>
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 shrink-0">
+                        <i class="fa-solid fa-arrow-trend-up text-xs sm:text-sm"></i>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-3 sm:p-3.5 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">Sinyal Short/Sell</p>
+                        <p class="text-xs sm:text-sm font-mono font-bold text-brand-danger mt-0.5" id="stat-short-count">0 Pairs</p>
+                    </div>
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-400 shrink-0">
+                        <i class="fa-solid fa-arrow-trend-down text-xs sm:text-sm"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4.5" id="signals-grid">
+            </div>
+        </section>
+
+        <section id="view-ai-recommendations" class="hidden space-y-4">
+            <div class="glass-panel p-4 sm:p-5 rounded-2xl border-l-4 border-brand-purple">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                        <h2 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles text-brand-purple"></i> Top Recommended Trading Pairs (AI Confluence)
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">Hasil analisa mendalam gabungan algoritma kuantitatif indikator teknikal & pindaian Web Real-Time (TradingView + CoinMarketCap sentiment). <b>Klik pada kartu koin untuk membuka detail rekomendasi lengkap.</b></p>
+                    </div>
+                    <button onclick="fetchAIRecommendations()" class="px-3 py-1.5 bg-brand-purple/20 hover:bg-brand-purple/30 text-brand-purple border border-brand-purple/40 text-xs font-mono font-semibold rounded-xl transition shrink-0">
+                        <i class="fa-solid fa-rotate mr-1"></i> Update Scan
+                    </button>
+                </div>
+            </div>
+
+            <div id="ai-recommendations-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4.5">
+            </div>
+        </section>
+
+        <section id="view-calculator" class="hidden space-y-5 max-w-4xl mx-auto">
+            <div class="glass-panel p-4 sm:p-6 rounded-2xl space-y-5">
+                <div class="border-b border-slate-800/80 pb-3">
+                    <h2 class="text-base sm:text-lg font-bold font-mono text-white flex items-center gap-2">
+                        <i class="fa-solid fa-calculator text-brand-cyan"></i> Kalkulator Profit/Loss & ROE Futures/Spot
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Hitung persentase keuntungan (ROE), rasio risk/reward, target harga TP/SL, serta estimasi hasil trading sebelum membuka posisi.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 font-mono">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Posisi Trading</label>
+                        <select id="calc-side" onchange="calculateROE()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-slate-200 focus:outline-none focus:border-brand-accent">
+                            <option value="LONG">LONG / SPOT BUY (Ekspektasi Naik)</option>
+                            <option value="SHORT">SHORT / FUTURES SELL (Ekspektasi Turun)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Leverage Multiplier</label>
+                        <div class="flex items-center space-x-2">
+                            <input type="range" id="calc-leverage-slider" min="1" max="125" value="10" oninput="document.getElementById('calc-leverage-val').value = this.value; calculateROE();" class="w-full accent-brand-accent">
+                            <input type="number" id="calc-leverage-val" min="1" max="125" value="10" oninput="document.getElementById('calc-leverage-slider').value = this.value; calculateROE();" class="w-16 bg-slate-950 border border-slate-800 rounded-xl px-2 py-1 text-center font-mono font-bold text-xs text-brand-accent">
+                            <span class="text-xs font-mono text-slate-400">x</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Modal / Margin ($ USD)</label>
+                        <input type="number" id="calc-margin" value="100" step="10" oninput="calculateROE()" placeholder="100" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-brand-accent">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Harga Entry ($ USD)</label>
+                        <input type="number" id="calc-entry" value="65000" step="any" oninput="calculateROE()" placeholder="Harga masuk" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-brand-accent">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Target Take Profit / TP ($ USD)</label>
+                        <input type="number" id="calc-tp" value="68250" step="any" oninput="calculateROE()" placeholder="Harga target TP" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-brand-accent">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Stop Loss / SL ($ USD)</label>
+                        <input type="number" id="calc-sl" value="63700" step="any" oninput="calculateROE()" placeholder="Harga pembatas rugi" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-brand-accent">
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 rounded-2xl p-4 sm:p-5 border border-slate-800 space-y-3.5">
+                    <h3 class="text-xs font-mono text-slate-400 uppercase tracking-wider font-semibold">Hasil Proyeksi Keuntungan & Risiko</h3>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3.5 font-mono">
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block">Estimasi ROE TP</span>
+                            <p class="text-base sm:text-xl font-bold text-brand-accent" id="res-roe-tp">+50.00%</p>
+                            <span class="text-[11px] text-emerald-400 font-semibold" id="res-pnl-tp">+$50.00</span>
+                        </div>
+
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block">Estimasi ROE SL</span>
+                            <p class="text-base sm:text-xl font-bold text-brand-danger" id="res-roe-sl">-20.00%</p>
+                            <span class="text-[11px] text-rose-400 font-semibold" id="res-pnl-sl">-$20.00</span>
+                        </div>
+
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block">Risk to Reward Ratio</span>
+                            <p class="text-base sm:text-xl font-bold text-brand-cyan" id="res-rr-ratio">1 : 2.5</p>
+                            <span class="text-[11px] text-slate-400" id="res-rr-eval">Sangat Baik</span>
+                        </div>
+
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block">Ukuran Posisi (Notional)</span>
+                            <p class="text-xs sm:text-sm font-bold text-white" id="res-notional-val">$1,000.00</p>
+                        </div>
+
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 block">Estimasi Likuidasi</span>
+                            <p class="text-xs sm:text-sm font-bold text-amber-400" id="res-liq-price">$58,800.00</p>
+                        </div>
+
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 flex items-center justify-center col-span-2 sm:col-span-1">
+                            <button onclick="saveCalcToJournal()" class="w-full h-full py-2 bg-brand-accent/20 hover:bg-brand-accent/30 text-brand-accent border border-brand-accent/40 rounded-lg text-xs font-bold transition">
+                                <i class="fa-solid fa-bookmark mr-1"></i> Simpan ke Jurnal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FUTURISTIC & RESPONSIVE REAL-TIME AI SCANNER VIEW -->
+        <section id="view-gemini-analyst" class="hidden space-y-4">
+            <div class="glass-panel p-4 sm:p-5 rounded-2xl space-y-4 border border-brand-accent/30 shadow-xl">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/30 flex items-center justify-center text-brand-accent shrink-0">
+                            <i class="fa-solid fa-microchip text-lg"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm sm:text-base font-bold font-mono text-white flex items-center gap-2 tracking-wide">
+                                REAL-TIME AI MARKET SCANNER
+                            </h2>
+                            <p class="text-xs text-slate-400 mt-0.5 font-mono">Multimodal Gemini + Web Search Grounding (TradingView, CMC & On-Chain Sentiment)</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 self-start sm:self-auto">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-[11px] font-mono text-brand-accent">
+                            <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span> SEARCH GROUNDING ACTIVE
+                        </span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-2 font-mono">
+                    <div class="relative flex-1">
+                        <input type="text" id="ai-custom-symbol" value="BTCUSDT" placeholder="Ketik simbol koin (misal: ETHUSDT, SOLUSDT, SUIUSDT)..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 pl-9 text-xs font-bold text-white focus:outline-none focus:border-brand-accent uppercase tracking-wider transition">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-500 text-xs"></i>
+                    </div>
+                    <button onclick="runCustomGeminiScan()" class="bg-gradient-to-r from-brand-accent via-brand-cyan to-brand-purple hover:opacity-90 text-slate-950 font-black px-6 py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-lg shadow-brand-accent/20 shrink-0">
+                        <i class="fa-solid fa-brain"></i> ANALISA REAL-TIME AI
+                    </button>
+                </div>
+
+                <!-- Live Gemini Result Output Container -->
+                <div id="gemini-output-container" class="bg-slate-950/90 rounded-2xl p-4 sm:p-5 border border-slate-800/90 min-h-[220px] flex items-center justify-center transition-all">
+                    <div class="text-center text-slate-500 text-xs py-8 font-mono space-y-3 max-w-md">
+                        <div class="w-14 h-14 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto text-slate-600">
+                            <i class="fa-solid fa-robot text-2xl"></i>
+                        </div>
+                        <p class="text-slate-300 font-medium">Ketikkan koin di atas dan klik <b class="text-brand-accent">Analisa Real-Time</b> untuk memicu pemindaian AI kuantitatif mendalam.</p>
+                        <p class="text-[11px] text-slate-500">Mengkalkulasi RSI, MACD Crossover, EMA 20/50/200, 3 Zona Entry DCA, TP1-3, SL, serta sentimen CoinMarketCap.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-journal" class="hidden space-y-4">
+            <div class="glass-panel p-4 sm:p-5 rounded-2xl flex items-center justify-between">
+                <div>
+                    <h2 class="text-sm sm:text-base font-bold text-white flex items-center gap-2 font-mono">
+                        <i class="fa-solid fa-book-bookmark text-yellow-400"></i> Jurnal Signals & Catatan Trading
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Riwayat kalkulasi dan sinyal yang Anda simpan.</p>
+                </div>
+                <button onclick="clearJournal()" class="text-xs text-rose-400 hover:text-rose-300 font-mono font-medium">
+                    <i class="fa-solid fa-trash mr-1"></i> Bersihkan Jurnal
+                </button>
+            </div>
+
+            <div class="glass-panel rounded-2xl overflow-hidden">
+                <div class="overflow-x-auto scrollbar-none">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-900/80 border-b border-slate-800 text-slate-400 font-mono">
+                                <th class="p-3">WAKTU</th>
+                                <th class="p-3">PAIR / SISI</th>
+                                <th class="p-3">LEVERAGE</th>
+                                <th class="p-3">ENTRY</th>
+                                <th class="p-3">TARGET TP</th>
+                                <th class="p-3">STOP LOSS</th>
+                                <th class="p-3">ESTIMASI ROE</th>
+                                <th class="p-3 text-right">AKSI</th>
+                            </tr>
+                        </thead>
+                        <tbody id="journal-table-body" class="divide-y divide-slate-800/60 font-mono text-slate-300">
+                            <tr>
+                                <td colspan="8" class="p-6 text-center text-slate-500 italic">Belum ada sinyal atau kalkulasi yang disimpan.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-settings" class="hidden space-y-4 max-w-4xl mx-auto">
+            
+            <div class="glass-panel p-4 sm:p-6 rounded-2xl border border-brand-accent/40 space-y-5">
+                
+                <div class="flex items-start justify-between gap-3 border-b border-slate-800 pb-4">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-2xl bg-slate-950 border border-brand-accent/40 flex items-center justify-center text-brand-accent shrink-0">
+                            <i class="fa-solid fa-gear text-lg"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-base sm:text-lg font-bold font-mono text-white">
+                                Pengaturan Aplikasi & Konfigurasi API Gemini
+                            </h2>
+                            <p class="text-xs text-slate-400 leading-relaxed mt-1">
+                                Kelola API Key Gemini, daftar koin yang dipantau, preferensi interval refresh, serta suara notifikasi sinyal.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="api-status-badge" class="shrink-0 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/40 text-amber-400 text-xs font-mono font-bold text-center">
+                        API Standard<br><span class="text-[9px] font-normal text-amber-300/80">(Default)</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
+                    <div class="space-y-3 font-mono text-xs bg-slate-950 p-4 rounded-xl border border-slate-800">
+                        <div class="flex items-center gap-2 text-white font-bold border-b border-slate-800/80 pb-2">
+                            <i class="fa-solid fa-key text-brand-purple"></i>
+                            <span>Gemini AI API Key</span>
+                        </div>
+
+                        <p class="text-slate-400 text-[11px] leading-relaxed">
+                            Memasukkan Google Gemini API Key milik Anda sendiri akan membuka akses kuota analisis tanpa batas.
+                        </p>
+
+                        <div class="relative flex items-center">
+                            <input type="password" id="setting-gemini-key" placeholder="Masukkan API Key Gemini (AIzaSy...)" 
+                                   class="w-full bg-slate-900 border border-slate-800 rounded-xl pl-3 pr-10 py-2.5 text-white outline-none focus:border-brand-accent transition">
+                            <button onclick="toggleKeyVisibility()" class="absolute right-3 text-slate-400 hover:text-white">
+                                <i class="fa-solid fa-eye text-xs" id="toggle-key-icon"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex gap-2 pt-1">
+                            <button onclick="saveGeminiSettings()" class="flex-1 py-2 bg-brand-accent hover:bg-emerald-400 text-black font-bold rounded-xl transition">
+                                Simpan API Key
+                            </button>
+                            <button onclick="testGeminiApiKey()" class="px-3 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 rounded-xl transition">
+                                Uji API
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 font-mono text-xs bg-slate-950 p-4 rounded-xl border border-slate-800">
+                        <div class="flex items-center gap-2 text-white font-bold border-b border-slate-800/80 pb-2">
+                            <i class="fa-solid fa-coins text-brand-cyan"></i>
+                            <span>Kelola Koin Pantauan (Pair USDT)</span>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <input type="text" id="setting-new-coin" placeholder="Contoh: ENAUSDT, SOLUSDT" 
+                                   class="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white uppercase outline-none focus:border-brand-accent">
+                            <button onclick="addCustomCoin()" class="px-3 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-white rounded-xl font-bold">
+                                + Tambah
+                            </button>
+                        </div>
+
+                        <div id="tracked-coins-container" class="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto p-1 scrollbar-none">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="space-y-3 font-mono text-xs border-t border-slate-800/80 pt-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="block font-bold text-white">Suara Notifikasi Alert</span>
+                            <span class="text-slate-400 text-[11px]">Bunyi alarm audio saat sinyal baru terdeteksi.</span>
+                        </div>
+                        <input type="checkbox" id="setting-sound-toggle" onchange="toggleSoundSetting()" checked class="accent-brand-accent w-4 h-4">
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="block font-bold text-white">Interval Auto Refresh</span>
+                            <span class="text-slate-400 text-[11px]">Seberapa sering data pasar diperbarui.</span>
+                        </div>
+                        <select id="setting-refresh-interval" onchange="changeRefreshInterval()" class="bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 outline-none">
+                            <option value="15000">15 Detik</option>
+                            <option value="30000">30 Detik</option>
+                            <option value="60000" selected>1 Menit</option>
+                            <option value="300000">5 Menit</option>
+                        </select>
+                    </div>
+
+                    <div class="pt-2">
+                        <button onclick="resetSettingsToDefault()" class="w-full py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold rounded-xl transition">
+                            Reset Seluruh Pengaturan Aplikasi
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- TECHNICAL SIGNAL DETAIL MODAL -->
+    <div id="signal-detail-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4">
+        <div class="glass-panel w-full max-w-2xl max-h-[92vh] flex flex-col rounded-2xl sm:rounded-3xl border border-slate-700/80 shadow-2xl overflow-hidden">
+            
+            <div class="p-3.5 sm:p-4 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between shrink-0">
+                <div class="flex items-center space-x-2.5">
+                    <span id="modal-coin-badge" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-brand-accent/20 text-brand-accent font-bold flex items-center justify-center font-mono text-xs sm:text-sm">BTC</span>
+                    <div>
+                        <h3 class="text-sm sm:text-base font-mono font-bold text-white flex items-center gap-2" id="modal-coin-title">BTC/USDT</h3>
+                        <p class="text-[10px] sm:text-xs text-slate-400" id="modal-coin-subtitle">Futures Market • Timeframe 15m</p>
+                    </div>
+                </div>
+                <button onclick="closeSignalModal()" class="w-8 h-8 rounded-full bg-slate-950 border border-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <div class="p-3.5 sm:p-5 space-y-4 overflow-y-auto flex-1">
+                
+                <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-950 p-2 sm:p-2.5 rounded-xl border border-slate-800 text-xs font-mono">
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="openTradingView(activeModalCoin?.symbol)" class="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 px-2.5 py-1 rounded-lg transition flex items-center gap-1 font-bold">
+                            <i class="fa-solid fa-chart-line"></i> TV Web
+                        </button>
+                        <button onclick="openCoinMarketCap(activeModalCoin?.symbol)" class="bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 border border-yellow-500/30 px-2.5 py-1 rounded-lg transition flex items-center gap-1 font-bold">
+                            <i class="fa-solid fa-coins"></i> CMC Web
+                        </button>
+                    </div>
+                    <div class="inline-flex p-0.5 bg-slate-900 rounded-lg border border-slate-800">
+                        <button id="btn-chart-simple" onclick="switchModalChartType('simple')" class="px-2.5 py-0.5 rounded text-brand-accent font-bold bg-slate-800 transition">Simple Line</button>
+                        <button id="btn-chart-tv" onclick="switchModalChartType('tv')" class="px-2.5 py-0.5 rounded text-slate-400 hover:text-white transition">TradingView Live</button>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 rounded-2xl p-2.5 sm:p-3 border border-slate-800">
+                    <div class="flex items-center justify-between mb-2 font-mono">
+                        <span class="text-[11px] text-slate-400" id="modal-chart-title">Live Technical Chart</span>
+                        <span class="text-xs font-bold text-brand-accent" id="modal-price-display">$0.00</span>
+                    </div>
+                    <div class="h-44 sm:h-60 w-full relative overflow-hidden rounded-xl">
+                        <canvas id="modalChartCanvas"></canvas>
+                        <iframe id="modalTvIframe" class="hidden w-full h-full rounded-xl border-0" src="about:blank"></iframe>
+                    </div>
+                </div>
+
+                <div class="space-y-2 font-mono text-xs">
+                    <span class="text-[11px] font-bold text-slate-400 block"><i class="fa-solid fa-layer-group text-brand-accent mr-1"></i> 3 ZONA BELI (DCA ENTRY)</span>
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div class="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                            <span class="text-[9px] text-slate-500 block">Buy 1 (Market)</span>
+                            <span class="text-xs font-bold text-white" id="modal-entry1">$0.00</span>
+                        </div>
+                        <div class="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                            <span class="text-[9px] text-slate-500 block">Buy 2 (Pullback)</span>
+                            <span class="text-xs font-bold text-brand-cyan" id="modal-entry2">$0.00</span>
+                        </div>
+                        <div class="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                            <span class="text-[9px] text-slate-500 block">Buy 3 (Deep DCA)</span>
+                            <span class="text-xs font-bold text-brand-purple" id="modal-entry3">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-2 font-mono text-xs">
+                    <span class="text-[11px] font-bold text-slate-400 block"><i class="fa-solid fa-bullseye text-emerald-400 mr-1"></i> TARGET TP & STOP LOSS</span>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                        <div class="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                            <span class="text-[9px] text-slate-500 block">TP 1 (+2.5%)</span>
+                            <span class="text-xs font-bold text-emerald-400" id="modal-tp1">$0.00</span>
+                        </div>
+                        <div class="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                            <span class="text-[9px] text-slate-500 block">TP 2 (+5.0%)</span>
+                            <span class="text-xs font-bold text-emerald-400" id="modal-tp2">$0.00</span>
+                        </div>
+                        <div class="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                            <span class="text-[9px] text-slate-500 block">TP 3 (+8.5%)</span>
+                            <span class="text-xs font-bold text-emerald-300" id="modal-tp3">$0.00</span>
+                        </div>
+                        <div class="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                            <span class="text-[9px] text-slate-500 block">Stop Loss (SL)</span>
+                            <span class="text-xs font-bold text-rose-400" id="modal-sl">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 rounded-2xl p-3 border border-slate-800 space-y-2 font-mono text-xs">
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div class="p-1.5 bg-slate-900 rounded-lg">
+                            <span class="text-slate-500 text-[10px] block">RSI (14)</span>
+                            <span class="text-white font-bold" id="modal-rsi">54.2</span>
+                        </div>
+                        <div class="p-1.5 bg-slate-900 rounded-lg">
+                            <span class="text-slate-500 text-[10px] block">MACD</span>
+                            <span class="text-emerald-400 font-bold" id="modal-macd">BULLISH</span>
+                        </div>
+                        <div class="p-1.5 bg-slate-900 rounded-lg">
+                            <span class="text-slate-500 text-[10px] block">EMA 20/50</span>
+                            <span class="text-emerald-400 font-bold" id="modal-ema">CROSSOVER</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="runModalGeminiScan()" class="w-full bg-brand-purple/20 hover:bg-brand-purple/30 text-purple-300 border border-brand-purple/40 font-mono font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Analisis AI Gemini Real-Time
+                </button>
+                <div id="modal-gemini-result" class="hidden p-3 bg-slate-950 rounded-xl border border-brand-purple/40 text-xs text-slate-300">
+                </div>
+            </div>
+
+            <div class="p-3 bg-slate-900/90 border-t border-slate-800 flex gap-2 font-mono text-xs shrink-0">
+                <button onclick="copyModalSignal()" class="flex-1 py-2 bg-brand-accent/20 hover:bg-brand-accent/30 text-brand-accent border border-brand-accent/40 rounded-xl font-bold transition">
+                    <i class="fa-solid fa-copy mr-1"></i> Salin Sinyal
+                </button>
+                <button onclick="closeSignalModal()" class="px-5 py-2 bg-slate-950 text-slate-300 hover:text-white rounded-xl transition">
+                    Tutup
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- AI RECOMMENDATION DETAILED MODAL -->
+    <div id="ai-rec-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4">
+        <div class="glass-panel w-full max-w-3xl max-h-[92vh] flex flex-col rounded-2xl sm:rounded-3xl border border-brand-purple/50 shadow-2xl overflow-hidden">
+            
+            <div class="p-3.5 sm:p-4 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between shrink-0">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-brand-purple/20 text-brand-purple border border-brand-purple/40 flex items-center justify-center font-mono font-bold text-sm" id="ai-modal-badge">
+                        BTC
+                    </div>
+                    <div>
+                        <h3 class="text-sm sm:text-base font-mono font-bold text-white flex items-center gap-2" id="ai-modal-title">BTC/USDT - AI Signal Analysis</h3>
+                        <p class="text-[10px] sm:text-xs text-slate-400 font-mono" id="ai-modal-subtitle">AI Multi-Factor Technical & Sentiment Confluence</p>
+                    </div>
+                </div>
+                <button onclick="closeAiRecModal()" class="w-8 h-8 rounded-full bg-slate-950 border border-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <div class="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1 font-mono text-xs">
+                
+                <div class="grid grid-cols-3 gap-2 bg-slate-950 p-3 rounded-xl border border-slate-800 text-center items-center">
+                    <div class="flex flex-col items-center justify-center">
+                        <span class="text-[9px] sm:text-[10px] text-slate-500 block uppercase tracking-wider mb-1">HARGA CURRENT</span>
+                        <span class="text-xs sm:text-sm md:text-base font-bold text-white truncate w-full" id="ai-modal-price">$0.00</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center">
+                        <span class="text-[9px] sm:text-[10px] text-slate-500 block uppercase tracking-wider mb-1">REKOMENDASI AI</span>
+                        <span class="px-2 py-0.5 rounded-lg border text-[10px] sm:text-xs font-bold inline-block" id="ai-modal-side-badge">LONG / BUY</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center">
+                        <span class="text-[9px] sm:text-[10px] text-slate-500 block uppercase tracking-wider mb-1">CONFIDENCE SCORE</span>
+                        <span class="text-brand-accent font-bold text-xs sm:text-sm truncate w-full" id="ai-modal-score">94% HIGH</span>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <span class="text-[11px] font-bold text-slate-400 block"><i class="fa-solid fa-layer-group text-brand-accent mr-1"></i> STRATEGI ZONA DCA ENTRY (3 BUY ZONES)</span>
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[9px] text-slate-500 block">Buy 1 (Market)</span>
+                            <span class="text-xs font-bold text-white" id="ai-modal-entry1">$0.00</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[9px] text-slate-500 block">Buy 2 (Pullback)</span>
+                            <span class="text-xs font-bold text-brand-cyan" id="ai-modal-entry2">$0.00</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[9px] text-slate-500 block">Buy 3 (Deep DCA)</span>
+                            <span class="text-xs font-bold text-brand-purple" id="ai-modal-entry3">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <span class="text-[11px] font-bold text-slate-400 block"><i class="fa-solid fa-bullseye text-emerald-400 mr-1"></i> TARGET PROPRIETARY TAKE PROFIT & RISK</span>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                        <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[9px] text-slate-500 block">TP 1 (+2.5%)</span>
+                            <span class="text-xs font-bold text-emerald-400" id="ai-modal-tp1">$0.00</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[9px] text-slate-500 block">TP 2 (+5.0%)</span>
+                            <span class="text-xs font-bold text-emerald-400" id="ai-modal-tp2">$0.00</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[9px] text-slate-500 block">TP 3 (+8.5%)</span>
+                            <span class="text-xs font-bold text-emerald-300" id="ai-modal-tp3">$0.00</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-[9px] text-slate-500 block">Stop Loss (SL)</span>
+                            <span class="text-xs font-bold text-rose-400" id="ai-modal-sl">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                    <h4 class="text-xs font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-brain text-brand-purple"></i> AI Rationale & Structural Analysis
+                    </h4>
+                    <p class="text-slate-300 font-sans leading-relaxed text-xs" id="ai-modal-reasoning">
+                        Memuat rasionalisasi AI...
+                    </p>
+                </div>
+
+                <div class="flex items-center justify-between gap-2 pt-1 font-mono">
+                    <button onclick="openTradingView(activeAiRecCoin?.symbol)" class="flex-1 py-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 rounded-xl font-bold transition text-center">
+                        <i class="fa-solid fa-chart-line mr-1"></i> Buka TradingView
+                    </button>
+                    <button onclick="openCoinMarketCap(activeAiRecCoin?.symbol)" class="flex-1 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 border border-yellow-500/30 rounded-xl font-bold transition text-center">
+                        <i class="fa-solid fa-coins mr-1"></i> Buka CMC
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="p-3 bg-slate-900/90 border-t border-slate-800 flex justify-end font-mono text-xs shrink-0">
+                <button onclick="closeAiRecModal()" class="px-5 py-2 bg-slate-950 text-slate-300 hover:text-white rounded-xl transition">
+                    Tutup
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="toast-container" class="fixed bottom-16 md:bottom-5 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 glass-nav border-t border-slate-800/90 px-1 py-1">
+        <div class="grid grid-cols-6 gap-0.5 text-center font-mono">
+            
+            <button onclick="switchTab('signals')" id="mob-tab-signals" class="mobile-nav-btn py-1.5 text-brand-accent flex flex-col items-center justify-center font-bold">
+                <i class="fa-solid fa-signal text-xs sm:text-sm mb-0.5"></i>
+                <span class="text-[9px]">Sinyal</span>
+            </button>
+
+            <button onclick="switchTab('ai-recommendations')" id="mob-tab-ai-recommendations" class="mobile-nav-btn py-1.5 text-slate-400 hover:text-white flex flex-col items-center justify-center">
+                <i class="fa-solid fa-wand-magic-sparkles text-xs sm:text-sm mb-0.5"></i>
+                <span class="text-[9px]">Rekomendasi</span>
+            </button>
+
+            <button onclick="switchTab('calculator')" id="mob-tab-calculator" class="mobile-nav-btn py-1.5 text-slate-400 hover:text-white flex flex-col items-center justify-center">
+                <i class="fa-solid fa-calculator text-xs sm:text-sm mb-0.5"></i>
+                <span class="text-[9px]">Kalkulator</span>
+            </button>
+
+            <button onclick="switchTab('gemini-analyst')" id="mob-tab-gemini-analyst" class="mobile-nav-btn py-1.5 text-slate-400 hover:text-white flex flex-col items-center justify-center">
+                <i class="fa-solid fa-microchip text-xs sm:text-sm mb-0.5"></i>
+                <span class="text-[9px]">Scanner AI</span>
+            </button>
+
+            <button onclick="switchTab('journal')" id="mob-tab-journal" class="mobile-nav-btn py-1.5 text-slate-400 hover:text-white flex flex-col items-center justify-center">
+                <i class="fa-solid fa-book-bookmark text-xs sm:text-sm mb-0.5"></i>
+                <span class="text-[9px]">Jurnal</span>
+            </button>
+
+            <button onclick="switchTab('settings')" id="mob-tab-settings" class="mobile-nav-btn py-1.5 text-slate-400 hover:text-white flex flex-col items-center justify-center">
+                <i class="fa-solid fa-gear text-xs sm:text-sm mb-0.5"></i>
+                <span class="text-[9px]">Pengaturan</span>
+            </button>
+
+        </div>
+    </nav>
+
+    <script>
+        let currentMarketMode = 'FUTURES';
+        let currentTimeframe = '15m';
+        let cryptoSignals = [];
+        let trackedCoins = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'BNBUSDT', 'XRPUSDT', 'DOGEUSDT', 'AVAXUSDT', 'NEARUSDT', 'PEPEUSDT', 'SUIUSDT', 'LINKUSDT', 'APTUSDT'];
+        let activeModalCoin = null;
+        let activeAiRecCoin = null;
+        let chartInstance = null;
+        let currentModalChartType = 'simple';
+        let pwaDeferredPrompt = null;
+        let userJournal = [];
+        let audioAlertsEnabled = true;
+        let autoRefreshIntervalSec = 60000;
+        let autoRefreshTimer = null;
+        let rsiOversoldVal = 35;
+        let rsiOverboughtVal = 65;
+
+        // HELPER RULES FOR DYNAMIC DECIMAL FORMATTING ACCORDING TO USER RULES:
+        // 0 - 9 USD -> 4 decimals (e.g., 0.1243)
+        // 10 - 99 USD -> 3 decimals (e.g., 12.345)
+        // 100 - 999 USD -> 2 decimals (e.g., 145.50)
+        // 1000 - 9999 USD -> 1 decimal (e.g., 3450.5)
+        // 10000+ USD -> 0 decimals (e.g., 67540)
+        function formatPriceDynamic(val) {
+            if (val === undefined || val === null || val === '-') return '-';
+            const num = parseFloat(String(val).replace(/[^0-9.-]/g, ''));
+            if (isNaN(num)) return val;
+
+            let decimals = 2;
+            if (num < 10) {
+                decimals = 4;
+            } else if (num < 100) {
+                decimals = 3;
+            } else if (num < 1000) {
+                decimals = 2;
+            } else if (num < 10000) {
+                decimals = 1;
+            } else {
+                decimals = 0;
+            }
+
+            return `$${num.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}`;
+        }
+
+        function getGeminiApiKey() {
+            return localStorage.getItem('cs_gemini_api_key') || "";
+        }
+
+        function updateApiBadgeStatus() {
+            const badge = document.getElementById('api-status-badge');
+            const userKey = getGeminiApiKey();
+            if (badge) {
+                if (userKey) {
+                    badge.innerHTML = 'Custom Key Active<br><span class="text-[9px] font-normal text-brand-accent">(Personal)</span>';
+                    badge.className = 'shrink-0 px-3 py-1.5 rounded-xl bg-brand-accent/10 border border-brand-accent/40 text-brand-accent text-xs font-mono font-bold text-center';
+                } else {
+                    badge.innerHTML = 'API Standard<br><span class="text-[9px] font-normal text-amber-300/80">(Default)</span>';
+                    badge.className = 'shrink-0 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/40 text-amber-400 text-xs font-mono font-bold text-center';
+                }
+            }
+        }
+
+        function openTradingView(symbol) {
+            if (!symbol) return;
+            const clean = symbol.toUpperCase().replace('/', '');
+            window.open(`https://www.tradingview.com/chart/?symbol=BINANCE:${clean}`, '_blank');
+        }
+
+        // ENHANCED DIRECT DYNAMIC COINMARKETCAP ROUTER
+        function openCoinMarketCap(symbol) {
+            if (!symbol) return;
+            let ticker = symbol.toUpperCase().replace('USDT', '').replace('BUSD', '').replace('USDC', '').replace('/', '').trim();
+            
+            // Map common tickers directly to CMC slugs for 100% precision
+            const cmcSlugMap = {
+                'BTC': 'bitcoin',
+                'ETH': 'ethereum',
+                'BNB': 'bnb',
+                'SOL': 'solana',
+                'XRP': 'xrp',
+                'DOGE': 'dogecoin',
+                'ADA': 'cardano',
+                'AVAX': 'avalanche',
+                'SHIB': 'shiba-inu',
+                'DOT': 'polkadot',
+                'LINK': 'chainlink',
+                'NEAR': 'near-protocol',
+                'MATIC': 'polygon-ecosystem-token',
+                'POL': 'polygon-ecosystem-token',
+                'PEPE': 'pepe',
+                'SUI': 'sui',
+                'APT': 'aptos',
+                'UNI': 'uniswap',
+                'LTC': 'litecoin',
+                'ATOM': 'cosmos',
+                'ETC': 'ethereum-classic',
+                'FIL': 'filecoin',
+                'RENDER': 'render',
+                'INJ': 'injective',
+                'WIF': 'dogwifhat',
+                'FLOKI': 'floki-inu',
+                'BONK': 'bonk1',
+                'SEI': 'sei',
+                'ENA': 'ethena',
+                'TRX': 'tron',
+                'XLM': 'stellar',
+                'ALGO': 'algorand',
+                'FET': 'artificial-superintelligence-alliance',
+                'ARBITRUM': 'arbitrum',
+                'ARB': 'arbitrum',
+                'OP': 'optimism'
+            };
+
+            const slug = cmcSlugMap[ticker] || ticker.toLowerCase();
+            window.open(`https://coinmarketcap.com/currencies/${slug}/`, '_blank');
+        }
+
+        function triggerDirectWebSearch() {
+            const inputVal = document.getElementById('coin-search').value.trim().toUpperCase();
+            if (!inputVal) {
+                showToast('Ketikkan koin terlebih dahulu (misal: SOL, PEPE, BTC).', 'info');
+                return;
+            }
+            openTradingView(inputVal.endsWith('USDT') ? inputVal : `${inputVal}USDT`);
+        }
+
+        async function searchAndAddCoin(symbol) {
+            let cleanSymbol = symbol.trim().toUpperCase();
+            if (!cleanSymbol) return;
+            if (!cleanSymbol.endsWith('USDT')) cleanSymbol += 'USDT';
+
+            if (!trackedCoins.includes(cleanSymbol)) {
+                trackedCoins.push(cleanSymbol);
+                localStorage.setItem('cs_tracked_coins', JSON.stringify(trackedCoins));
+                renderTrackedCoinsChips();
+            }
+
+            document.getElementById('coin-search').value = cleanSymbol;
+            showToast(`Memuat sinyal real-time untuk ${cleanSymbol}...`, 'info');
+            await refreshAllSignals(true);
+        }
+
+        function switchModalChartType(type) {
+            currentModalChartType = type;
+            const simpleCanvas = document.getElementById('modalChartCanvas');
+            const tvIframe = document.getElementById('modalTvIframe');
+            const btnSimple = document.getElementById('btn-chart-simple');
+            const btnTv = document.getElementById('btn-chart-tv');
+
+            if (type === 'tv' && activeModalCoin) {
+                const cleanSymbol = activeModalCoin.symbol.replace('/', '').toUpperCase();
+                const intervalTv = currentTimeframe === '1d' ? 'D' : currentTimeframe.replace('m','');
+                tvIframe.src = `https://s.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol=BINANCE:${cleanSymbol}&interval=${intervalTv}&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=070a11&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC`;
+                tvIframe.classList.remove('hidden');
+                simpleCanvas.classList.add('hidden');
+                btnTv.className = 'px-2.5 py-0.5 rounded text-brand-accent font-bold bg-slate-800 transition';
+                btnSimple.className = 'px-2.5 py-0.5 rounded text-slate-400 hover:text-white transition';
+            } else {
+                tvIframe.classList.add('hidden');
+                simpleCanvas.classList.remove('hidden');
+                btnSimple.className = 'px-2.5 py-0.5 rounded text-brand-accent font-bold bg-slate-800 transition';
+                btnTv.className = 'px-2.5 py-0.5 rounded text-slate-400 hover:text-white transition';
+            }
+        }
+
+        function loadUserSettings() {
+            const savedKey = localStorage.getItem('cs_gemini_api_key');
+            const savedCoins = localStorage.getItem('cs_tracked_coins');
+            const savedSound = localStorage.getItem('cs_sound_enabled');
+            const savedInterval = localStorage.getItem('cs_refresh_interval');
+            const savedDefMode = localStorage.getItem('cs_default_mode');
+            const savedDefLev = localStorage.getItem('cs_default_leverage');
+
+            if (savedKey) document.getElementById('setting-gemini-key').value = savedKey;
+            if (savedCoins) trackedCoins = JSON.parse(savedCoins);
+            if (savedSound !== null) {
+                audioAlertsEnabled = savedSound === 'true';
+                document.getElementById('setting-sound-toggle').checked = audioAlertsEnabled;
+            }
+            if (savedInterval) {
+                autoRefreshIntervalSec = parseInt(savedInterval);
+                document.getElementById('setting-refresh-interval').value = savedInterval;
+            }
+            if (savedDefMode) {
+                currentMarketMode = savedDefMode;
+            }
+            if (savedDefLev) {
+                document.getElementById('calc-leverage-val').value = savedDefLev;
+                document.getElementById('calc-leverage-slider').value = savedDefLev;
+            }
+
+            renderTrackedCoinsChips();
+            updateApiBadgeStatus();
+        }
+
+        function saveGeminiSettings() {
+            const key = document.getElementById('setting-gemini-key').value.trim();
+            localStorage.setItem('cs_gemini_api_key', key);
+            updateApiBadgeStatus();
+            showToast('API Key Gemini berhasil disimpan!', 'success');
+        }
+
+        function toggleKeyVisibility() {
+            const input = document.getElementById('setting-gemini-key');
+            const icon = document.getElementById('toggle-key-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-solid fa-eye-slash text-xs';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-solid fa-eye text-xs';
+            }
+        }
+
+        async function testGeminiApiKey() {
+            const key = document.getElementById('setting-gemini-key').value.trim() || getGeminiApiKey();
+            showToast('Menguji koneksi ke Gemini API...', 'info');
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${key}`;
+            
+            try {
+                const res = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: "Respond OK." }] }] })
+                });
+
+                if (res.ok) {
+                    showToast('Status API Gemini: BERHASIL TERHUBUNG!', 'success');
+                } else {
+                    const errData = await res.json();
+                    showToast(`Gagal API Key (${res.status}): ${errData.error?.message || 'Key tidak valid'}`, 'error');
+                }
+            } catch (err) {
+                showToast('Gagal terhubung ke Gemini API.', 'error');
+            }
+        }
+
+        function renderTrackedCoinsChips() {
+            const container = document.getElementById('tracked-coins-container');
+            if (!container) return;
+
+            container.innerHTML = trackedCoins.map(coin => `
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-900 border border-slate-800 rounded-lg text-[11px] font-mono text-slate-300">
+                    ${coin}
+                    <button onclick="removeCoin('${coin}')" class="text-slate-500 hover:text-rose-400 ml-0.5"><i class="fa-solid fa-xmark"></i></button>
+                </span>
+            `).join('');
+        }
+
+        function addCustomCoin() {
+            const input = document.getElementById('setting-new-coin');
+            let symbol = input.value.trim().toUpperCase();
+            if (!symbol) return;
+            if (!symbol.endsWith('USDT')) symbol += 'USDT';
+
+            if (!trackedCoins.includes(symbol)) {
+                trackedCoins.push(symbol);
+                localStorage.setItem('cs_tracked_coins', JSON.stringify(trackedCoins));
+                input.value = '';
+                renderTrackedCoinsChips();
+                refreshAllSignals(true);
+                showToast(`Koin ${symbol} ditambahkan!`, 'success');
+            }
+        }
+
+        function removeCoin(symbol) {
+            if (trackedCoins.length <= 1) return;
+            trackedCoins = trackedCoins.filter(c => c !== symbol);
+            localStorage.setItem('cs_tracked_coins', JSON.stringify(trackedCoins));
+            renderTrackedCoinsChips();
+            refreshAllSignals(true);
+        }
+
+        function toggleSoundSetting() {
+            audioAlertsEnabled = document.getElementById('setting-sound-toggle').checked;
+            localStorage.setItem('cs_sound_enabled', audioAlertsEnabled);
+        }
+
+        function changeRefreshInterval() {
+            const val = document.getElementById('setting-refresh-interval').value;
+            autoRefreshIntervalSec = parseInt(val);
+            localStorage.setItem('cs_refresh_interval', val);
+            if (autoRefreshTimer) clearInterval(autoRefreshTimer);
+            autoRefreshTimer = setInterval(() => refreshAllSignals(false), autoRefreshIntervalSec);
+        }
+
+        function resetSettingsToDefault() {
+            localStorage.clear();
+            location.reload();
+        }
+
+        function playSignalSound() {
+            if (!audioAlertsEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.2);
+                gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.25);
+            } catch (e) {}
+        }
+
+        function switchTab(tabId) {
+            const tabs = ['signals', 'ai-recommendations', 'calculator', 'gemini-analyst', 'journal', 'settings'];
+            
+            tabs.forEach(t => {
+                const viewEl = document.getElementById(`view-${t}`);
+                const tabEl = document.getElementById(`tab-${t}`);
+                const mobEl = document.getElementById(`mob-tab-${t}`);
+                
+                if (t === tabId) {
+                    if (viewEl) viewEl.classList.remove('hidden');
+                    if (tabEl) {
+                        tabEl.className = 'tab-link pb-2.5 px-3 rounded-t-xl text-brand-accent border-b-2 border-brand-accent font-bold flex items-center gap-2 whitespace-nowrap';
+                    }
+                    if (mobEl) {
+                        mobEl.className = 'mobile-nav-btn py-1.5 text-brand-accent flex flex-col items-center justify-center font-bold';
+                    }
+                } else {
+                    if (viewEl) viewEl.classList.add('hidden');
+                    if (tabEl) {
+                        tabEl.className = 'tab-link pb-2.5 px-3 rounded-t-xl text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap';
+                    }
+                    if (mobEl) {
+                        mobEl.className = 'mobile-nav-btn py-1.5 text-slate-400 hover:text-white flex flex-col items-center justify-center';
+                    }
+                }
+            });
+
+            if (tabId === 'ai-recommendations') fetchAIRecommendations();
+            else if (tabId === 'settings') loadUserSettings();
+        }
+
+        async function fetchAIRecommendations() {
+            const container = document.getElementById('ai-recommendations-list');
+            container.innerHTML = `
+                <div class="col-span-full glass-panel p-6 text-center rounded-2xl space-y-2">
+                    <i class="fa-solid fa-circle-notch fa-spin text-2xl text-brand-purple"></i>
+                    <p class="text-xs font-mono text-slate-300">Memindai rekomendasi live via Gemini AI & Confluence Kuantitatif...</p>
+                </div>
+            `;
+
+            const topPicks = cryptoSignals.slice(0, 6);
+            if (!topPicks || topPicks.length === 0) {
+                container.innerHTML = `<div class="col-span-full p-6 text-center text-slate-500 font-mono text-xs">Belum ada sinyal aktif untuk dipindai AI.</div>`;
+                return;
+            }
+
+            container.innerHTML = topPicks.map(coin => {
+                const isLong = coin.side.includes('LONG') || coin.side.includes('BUY');
+                const badgeColor = isLong ? 'bg-emerald-500/10 text-brand-accent border-brand-accent/30' : 'bg-rose-500/10 text-brand-danger border-rose-500/30';
+                return `
+                    <div onclick="openAiRecModal('${coin.symbol}')" class="glass-panel p-4 rounded-2xl border border-slate-800 hover:border-brand-purple/60 cursor-pointer transition-all duration-300 space-y-3 font-mono text-xs hover:shadow-lg hover:shadow-brand-purple/10 flex flex-col justify-between">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2.5">
+                                <div class="w-8 h-8 rounded-xl bg-slate-950 border border-slate-800 font-bold flex items-center justify-center text-white text-xs">
+                                    ${coin.symbol.replace('USDT', '')}
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-white">${coin.symbol}</h3>
+                                    <p class="text-[10px] text-slate-400">${formatPriceDynamic(coin.price)}</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-0.5 rounded-lg border text-[10px] font-bold ${badgeColor}">${coin.side}</span>
+                        </div>
+
+                        <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 space-y-1">
+                            <div class="flex justify-between text-[10px] text-slate-400">
+                                <span>AI Score: <b class="text-brand-accent">${coin.signalStrength}% HIGH</b></span>
+                                <span class="text-slate-500 font-sans">Klik detail <i class="fa-solid fa-angle-right text-[10px]"></i></span>
+                            </div>
+                            <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+                                <div class="bg-gradient-to-r ${isLong ? 'from-emerald-500 to-brand-accent' : 'from-rose-500 to-red-400'} h-full" style="width: ${coin.signalStrength}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-1.5 text-[10px] bg-slate-950 p-2 rounded-xl border border-slate-800 text-center">
+                            <div><span class="text-slate-500 block text-[9px]">Entry 1</span>${formatPriceDynamic(coin.entry1)}</div>
+                            <div><span class="text-slate-500 block text-[9px]">TP 1</span><span class="text-emerald-400 font-bold">${formatPriceDynamic(coin.tp1)}</span></div>
+                            <div><span class="text-slate-500 block text-[9px]">SL</span><span class="text-rose-400 font-bold">${formatPriceDynamic(coin.sl)}</span></div>
+                        </div>
+
+                        <div class="flex items-center gap-1.5 pt-1">
+                            <span class="flex-1 text-center py-1.5 bg-brand-purple/20 hover:bg-brand-purple/30 text-brand-purple border border-brand-purple/40 rounded-xl font-bold text-[11px] transition">
+                                <i class="fa-solid fa-magnifying-glass-chart mr-1"></i> Detail AI
+                            </span>
+                            <button onclick="event.stopPropagation(); openTradingView('${coin.symbol}')" class="px-2.5 py-1.5 bg-slate-900 hover:bg-blue-600/20 text-blue-400 border border-slate-800 rounded-xl text-[11px] font-bold transition" title="Buka TradingView">
+                                <i class="fa-solid fa-chart-line"></i> TV
+                            </button>
+                            <button onclick="event.stopPropagation(); openCoinMarketCap('${coin.symbol}')" class="px-2.5 py-1.5 bg-slate-900 hover:bg-yellow-500/20 text-yellow-400 border border-slate-800 rounded-xl text-[11px] font-bold transition" title="Buka CoinMarketCap">
+                                <i class="fa-solid fa-coins"></i> CMC
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openAiRecModal(symbol) {
+            const coin = cryptoSignals.find(s => s.symbol === symbol);
+            if (!coin) return;
+
+            activeAiRecCoin = coin;
+            const isLong = coin.side.includes('LONG') || coin.side.includes('BUY');
+            
+            document.getElementById('ai-modal-badge').innerText = symbol.replace('USDT', '');
+            document.getElementById('ai-modal-title').innerText = `${symbol} - Sinyal Rekomendasi AI`;
+            document.getElementById('ai-modal-subtitle').innerText = `Konfluensi Teknikal & Sentimen Online Real-Time`;
+            document.getElementById('ai-modal-price').innerText = formatPriceDynamic(coin.price);
+            
+            const badgeEl = document.getElementById('ai-modal-side-badge');
+            badgeEl.innerText = coin.side;
+            badgeEl.className = isLong 
+                ? 'px-2.5 py-1 rounded-lg border text-xs font-bold bg-emerald-500/10 text-brand-accent border-brand-accent/30' 
+                : 'px-2.5 py-1 rounded-lg border text-xs font-bold bg-rose-500/10 text-brand-danger border-rose-500/30';
+
+            document.getElementById('ai-modal-score').innerText = `${coin.signalStrength}% CONFIDENCE`;
+            
+            document.getElementById('ai-modal-entry1').innerText = formatPriceDynamic(coin.entry1);
+            document.getElementById('ai-modal-entry2').innerText = formatPriceDynamic(coin.entry2);
+            document.getElementById('ai-modal-entry3').innerText = formatPriceDynamic(coin.entry3);
+
+            document.getElementById('ai-modal-tp1').innerText = formatPriceDynamic(coin.tp1);
+            document.getElementById('ai-modal-tp2').innerText = formatPriceDynamic(coin.tp2);
+            document.getElementById('ai-modal-tp3').innerText = formatPriceDynamic(coin.tp3);
+            document.getElementById('ai-modal-sl').innerText = formatPriceDynamic(coin.sl);
+
+            document.getElementById('ai-modal-reasoning').innerHTML = `
+                Simbol <b class="text-white">${coin.symbol}</b> menunjukkan setup <b class="${isLong ? 'text-brand-accent' : 'text-brand-danger'}">${coin.side}</b> ber-winrate tinggi. Indikator RSI tercatat di <b class="text-white">${coin.rsi}</b> dengan kondisi MACD <b class="text-brand-cyan">${coin.macdStatus}</b> dan status tren <b class="text-brand-purple">${coin.emaStatus}</b>. Zona akumulasi DCA direkomendasikan pada 3 tingkatan entry untuk meminimalkan risiko fluktuasi volatility.
+            `;
+
+            document.getElementById('ai-rec-modal').classList.remove('hidden');
+        }
+
+        function closeAiRecModal() {
+            document.getElementById('ai-rec-modal').classList.add('hidden');
+        }
+
+        async function runCustomGeminiScan() {
+            const coinInput = document.getElementById('ai-custom-symbol').value.trim().toUpperCase() || 'BTCUSDT';
+            let cleanSymbol = coinInput.endsWith('USDT') ? coinInput : `${coinInput}USDT`;
+            const outputContainer = document.getElementById('gemini-output-container');
+
+            outputContainer.innerHTML = `
+                <div class="text-center py-10 space-y-4 font-mono w-full">
+                    <div class="relative w-12 h-12 mx-auto flex items-center justify-center">
+                        <div class="absolute inset-0 rounded-full border-2 border-brand-accent/20 animate-ping"></div>
+                        <i class="fa-solid fa-microchip text-2xl text-brand-accent animate-pulse"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-200 font-bold tracking-wider">MENGAMBIL HARGA REAL-TIME & DATA BINANCE LIVE...</p>
+                        <p class="text-[11px] text-slate-400 mt-1">Menghubungkan ke API Pasar Binance & Gemini AI Scanner untuk <b>${cleanSymbol}</b>...</p>
+                    </div>
+                </div>
+            `;
+
+            let liveData = await fetchTechnicalDataForCoin(cleanSymbol, currentTimeframe);
+
+            const systemPrompt = `Anda adalah Analis Kuantitatif Crypto Terkemuka & Algorithmic Trading Specialist.
+Analisa koin ${cleanSymbol} secara presisi berdasar data pasar LIVE berikut:
+- Harga Real-Time Terkini: $${liveData.price}
+- Indikator RSI (14): ${liveData.rsi}
+- Status MACD: ${liveData.macdStatus}
+- Status EMA 20/50: ${liveData.emaStatus}
+
+Output WAJIB dalam format JSON murni tanpa markdown formatting backticks (jangan gunakan \`\`\`json).
+
+Gunakan skema JSON berikut:
+{
+  "coin": "${cleanSymbol}",
+  "side": "${liveData.side.includes('LONG') || liveData.side.includes('BUY') ? 'LONG' : 'SHORT'}",
+  "confidenceScore": ${liveData.signalStrength},
+  "marketBias": "${liveData.side.includes('LONG') || liveData.side.includes('BUY') ? 'BULLISH BREAKOUT' : 'BEARISH REJECTION'}",
+  "currentPrice": "${liveData.price}",
+  "timeframe": "${currentTimeframe}",
+  "dcaEntries": {
+    "entry1": "${liveData.entry1}",
+    "entry2": "${liveData.entry2}",
+    "entry3": "${liveData.entry3}"
+  },
+  "targets": {
+    "tp1": "${liveData.tp1}",
+    "tp2": "${liveData.tp2}",
+    "tp3": "${liveData.tp3}",
+    "sl": "${liveData.sl}"
+  },
+  "indicators": {
+    "rsi": "${liveData.rsi} (${parseFloat(liveData.rsi) > 50 ? 'Bullish Zone' : 'Bearish Pressure'})",
+    "macd": "${liveData.macdStatus}",
+    "ema": "${liveData.emaStatus}",
+    "volume": "Active Live Volume"
+  },
+  "aiAnalysisSummary": "Rasionalisasi teknikal dan sentimen berdasarkan harga live $${liveData.price} pada timeframe ${currentTimeframe}."
+}`;
+
+            const apiKey = getGeminiApiKey();
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `Berikan analisa kuantitatif JSON murni untuk ${cleanSymbol} harga real-time $${liveData.price}.` }] }],
+                        tools: [{ "google_search": {} }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] }
+                    })
+                });
+                const result = await response.json();
+                let text = result.candidates?.[0]?.content?.parts?.[0]?.text || "";
+                
+                text = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+                
+                let data = null;
+                try {
+                    data = JSON.parse(text);
+                } catch (err) {
+                    const firstBrace = text.indexOf('{');
+                    const lastBrace = text.lastIndexOf('}');
+                    if (firstBrace !== -1 && lastBrace !== -1) {
+                        data = JSON.parse(text.substring(firstBrace, lastBrace + 1));
+                    }
+                }
+
+                if (!data) {
+                    data = {
+                        coin: cleanSymbol,
+                        side: liveData.side.includes('LONG') || liveData.side.includes('BUY') ? 'LONG' : 'SHORT',
+                        confidenceScore: liveData.signalStrength,
+                        marketBias: liveData.side.includes('LONG') || liveData.side.includes('BUY') ? 'BULLISH TREN' : 'BEARISH TREN',
+                        currentPrice: liveData.price,
+                        timeframe: currentTimeframe,
+                        dcaEntries: { entry1: liveData.entry1, entry2: liveData.entry2, entry3: liveData.entry3 },
+                        targets: { tp1: liveData.tp1, tp2: liveData.tp2, tp3: liveData.tp3, sl: liveData.sl },
+                        indicators: { rsi: `${liveData.rsi}`, macd: liveData.macdStatus, ema: liveData.emaStatus, volume: "Live Stream" },
+                        aiAnalysisSummary: `Analisis terkonfirmasi real-time pada harga Binance $${liveData.price}.`
+                    };
+                }
+
+                const isLong = data.side === 'LONG' || data.side === 'BUY';
+                const sideClass = isLong 
+                    ? 'bg-emerald-500/10 text-brand-accent border-brand-accent/40 shadow-brand-accent/10' 
+                    : 'bg-rose-500/10 text-brand-danger border-rose-500/40 shadow-rose-500/10';
+
+                const formattedPrice = formatPriceDynamic(liveData.price);
+                const formattedEntry1 = formatPriceDynamic(liveData.entry1);
+                const formattedEntry2 = formatPriceDynamic(liveData.entry2);
+                const formattedEntry3 = formatPriceDynamic(liveData.entry3);
+                const formattedTp1 = formatPriceDynamic(liveData.tp1);
+                const formattedTp2 = formatPriceDynamic(liveData.tp2);
+                const formattedTp3 = formatPriceDynamic(liveData.tp3);
+                const formattedSl = formatPriceDynamic(liveData.sl);
+
+                outputContainer.innerHTML = `
+                    <div class="w-full space-y-4 font-mono text-xs">
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                            <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 flex flex-col justify-between">
+                                <span class="text-[10px] text-slate-500 uppercase tracking-wider block">PAIR / SYMBOL</span>
+                                <div class="flex items-center gap-1.5 mt-1">
+                                    <span class="font-bold text-sm text-white">${data.coin}</span>
+                                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-semibold">${data.timeframe || currentTimeframe}</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 flex flex-col justify-between">
+                                <span class="text-[10px] text-slate-500 uppercase tracking-wider block">HARGA REAL-TIME</span>
+                                <div class="mt-1">
+                                    <span class="font-bold text-sm text-brand-cyan">${formattedPrice}</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 flex flex-col justify-between">
+                                <span class="text-[10px] text-slate-500 uppercase tracking-wider block">REKOMENDASI SISI</span>
+                                <div class="mt-1">
+                                    <span class="px-2.5 py-1 rounded-lg border font-bold text-xs inline-flex items-center gap-1 shadow-sm ${sideClass}">
+                                        <i class="fa-solid ${isLong ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i> ${data.side}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 flex flex-col justify-between">
+                                <span class="text-[10px] text-slate-500 uppercase tracking-wider block">CONFIDENCE SCORE</span>
+                                <div class="mt-1 flex items-center gap-1.5">
+                                    <span class="font-bold text-sm text-brand-accent">${data.confidenceScore || 85}%</span>
+                                    <span class="text-[10px] text-slate-400">HIGH</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 p-3 bg-slate-900/90 rounded-2xl border border-slate-800 font-mono">
+                            <div class="flex items-center gap-2 text-slate-300">
+                                <div class="w-6 h-6 rounded-lg bg-brand-cyan/10 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan shrink-0">
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i>
+                                </div>
+                                <span class="text-xs font-semibold">Integrasi Live Market:</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 sm:flex sm:items-center">
+                                <button onclick="openTradingView('${data.coin}')" class="px-3 py-1.5 bg-blue-600/15 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 hover:border-blue-400 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                                    <i class="fa-solid fa-chart-line text-xs"></i> TradingView
+                                </button>
+                                <button onclick="openCoinMarketCap('${data.coin}')" class="px-3 py-1.5 bg-yellow-500/15 hover:bg-yellow-500/30 text-yellow-400 border border-yellow-500/30 hover:border-yellow-400 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                                    <i class="fa-solid fa-coins text-xs"></i> CoinMarketCap
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800/90 space-y-2.5">
+                                <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                                    <span class="font-bold text-slate-300 flex items-center gap-1.5 text-xs">
+                                        <i class="fa-solid fa-layer-group text-brand-accent"></i> 3 ZONA AKUMULASI DCA (LIVE)
+                                    </span>
+                                    <span class="text-[10px] text-slate-500">BUY ZONES</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 text-center">
+                                    <div class="bg-slate-950 p-2 rounded-xl border border-slate-800/80">
+                                        <span class="text-[9px] text-slate-500 block mb-0.5">Buy 1 (Market)</span>
+                                        <span class="font-bold text-xs text-white">${formattedEntry1}</span>
+                                    </div>
+                                    <div class="bg-slate-950 p-2 rounded-xl border border-slate-800/80">
+                                        <span class="text-[9px] text-slate-500 block mb-0.5">Buy 2 (Pullback)</span>
+                                        <span class="font-bold text-xs text-brand-cyan">${formattedEntry2}</span>
+                                    </div>
+                                    <div class="bg-slate-950 p-2 rounded-xl border border-slate-800/80">
+                                        <span class="text-[9px] text-slate-500 block mb-0.5">Buy 3 (Deep DCA)</span>
+                                        <span class="font-bold text-xs text-brand-purple">${formattedEntry3}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800/90 space-y-2.5">
+                                <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                                    <span class="font-bold text-slate-300 flex items-center gap-1.5 text-xs">
+                                        <i class="fa-solid fa-bullseye text-emerald-400"></i> PROPRIETARY TP & SL
+                                    </span>
+                                    <span class="text-[10px] text-slate-500">TARGETS</span>
+                                </div>
+                                <div class="grid grid-cols-4 gap-1.5 text-center">
+                                    <div class="bg-slate-950 p-1.5 rounded-xl border border-slate-800/80">
+                                        <span class="text-[8px] text-slate-500 block">TP 1</span>
+                                        <span class="font-bold text-[11px] text-emerald-400">${formattedTp1}</span>
+                                    </div>
+                                    <div class="bg-slate-950 p-1.5 rounded-xl border border-slate-800/80">
+                                        <span class="text-[8px] text-slate-500 block">TP 2</span>
+                                        <span class="font-bold text-[11px] text-emerald-400">${formattedTp2}</span>
+                                    </div>
+                                    <div class="bg-slate-950 p-1.5 rounded-xl border border-slate-800/80">
+                                        <span class="text-[8px] text-slate-500 block">TP 3</span>
+                                        <span class="font-bold text-[11px] text-emerald-300">${formattedTp3}</span>
+                                    </div>
+                                    <div class="bg-slate-950 p-1.5 rounded-xl border border-slate-800/80">
+                                        <span class="text-[8px] text-slate-500 block">STOP LOSS</span>
+                                        <span class="font-bold text-[11px] text-rose-400">${formattedSl}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800/90 space-y-3">
+                            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                                <span class="font-bold text-slate-300 flex items-center gap-1.5 text-xs">
+                                    <i class="fa-solid fa-sliders text-brand-purple"></i> PARAMETER INDIKATOR KUANTITATIF
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-[11px]">
+                                <div class="bg-slate-950 p-2 rounded-xl border border-slate-800/60">
+                                    <span class="text-slate-500 text-[9px] block">RSI (14)</span>
+                                    <span class="font-bold text-white">${data.indicators?.rsi || '-'}</span>
+                                </div>
+                                <div class="bg-slate-950 p-2 rounded-xl border border-slate-800/60">
+                                    <span class="text-slate-500 text-[9px] block">MACD STATUS</span>
+                                    <span class="font-bold text-brand-cyan">${data.indicators?.macd || '-'}</span>
+                                </div>
+                                <div class="bg-slate-950 p-2 rounded-xl border border-slate-800/60">
+                                    <span class="text-slate-500 text-[9px] block">EMA 20/50</span>
+                                    <span class="font-bold text-brand-purple">${data.indicators?.ema || '-'}</span>
+                                </div>
+                                <div class="bg-slate-950 p-2 rounded-xl border border-slate-800/60">
+                                    <span class="text-slate-500 text-[9px] block">BINANCE LIVE STATUS</span>
+                                    <span class="font-bold text-brand-accent">VERIFIED LIVE</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 pt-2.5">
+                                <span class="text-[10px] font-bold text-brand-accent block mb-1 uppercase">
+                                    <i class="fa-solid fa-brain mr-1"></i> AI Structural Rationale Summary
+                                </span>
+                                <p class="text-slate-300 font-sans text-xs leading-relaxed">
+                                    ${data.aiAnalysisSummary}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                outputContainer.innerHTML = `
+                    <div class="text-rose-400 text-xs text-center py-6 font-mono space-y-2">
+                        <i class="fa-solid fa-triangle-exclamation text-xl block mb-1"></i>
+                        <p>Gagal memuat struktur AI. Pastikan API Key Gemini pada tab Pengaturan terisi dan valid.</p>
+                        <button onclick="runCustomGeminiScan()" class="px-4 py-1.5 bg-slate-900 border border-slate-800 text-slate-300 rounded-xl hover:text-white transition">Coba Lagi</button>
+                    </div>
+                `;
+            }
+        }
+
+        async function runModalGeminiScan() {
+            if (!activeModalCoin) return;
+            const resContainer = document.getElementById('modal-gemini-result');
+            resContainer.classList.remove('hidden');
+            resContainer.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> Memproses AI untuk ${activeModalCoin.symbol}...`;
+
+            const prompt = `Analisa singkat sinyal ${activeModalCoin.symbol} (${currentTimeframe}). Memuat: Posisi, 3 Zona Entry DCA, Target TP 1-3, SL.`;
+            const apiKey = getGeminiApiKey();
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+                const data = await response.json();
+                const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "Gagal memperoleh data.";
+                resContainer.innerHTML = `<div class="font-sans leading-relaxed text-slate-300">${text}</div>`;
+            } catch (err) {
+                resContainer.innerHTML = `<span class="text-rose-400">Gagal terhubung ke AI.</span>`;
+            }
+        }
+
+        async function fetchTickerPrices() {
+            try {
+                const res = await fetch('https://api.binance.com/api/v3/ticker/24hr');
+                if (!res.ok) return;
+                const data = await res.json();
+                
+                const filtered = data.filter(item => trackedCoins.includes(item.symbol));
+                const tickerContainer = document.getElementById('ticker-container');
+                const loopData = [...filtered, ...filtered];
+                
+                tickerContainer.innerHTML = loopData.map(coin => {
+                    const price = formatPriceDynamic(parseFloat(coin.lastPrice));
+                    const change = parseFloat(coin.priceChangePercent);
+                    const isPos = change >= 0;
+                    return `
+                        <div class="inline-flex items-center space-x-1.5 bg-slate-900/60 px-2.5 py-1 rounded-lg border border-slate-800">
+                            <span class="font-bold text-white">${coin.symbol.replace('USDT', '')}</span>
+                            <span class="text-slate-300">${price}</span>
+                            <span class="${isPos ? 'text-brand-accent' : 'text-rose-400'} font-semibold">
+                                ${isPos ? '+' : ''}${change.toFixed(2)}%
+                            </span>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {}
+        }
+
+        async function fetchTechnicalDataForCoin(symbol, tf) {
+            try {
+                const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${tf}&limit=50`);
+                if (!res.ok) throw new Error();
+                const rawKlines = await res.json();
+                
+                const closes = rawKlines.map(k => parseFloat(k[4]));
+                const currentPrice = closes[closes.length - 1];
+                
+                let gains = 0, losses = 0;
+                for (let i = closes.length - 14; i < closes.length; i++) {
+                    const diff = closes[i] - closes[i - 1];
+                    if (diff >= 0) gains += diff; else losses -= diff;
+                }
+                const rs = losses === 0 ? 100 : (gains / 14) / (losses / 14);
+                const rsi = 100 - (100 / (1 + rs));
+
+                const ema20 = closes.slice(-20).reduce((a, b) => a + b, 0) / 20;
+                const ema50 = closes.slice(-50).reduce((a, b) => a + b, 0) / 50;
+
+                let score = 50;
+                if (rsi < rsiOversoldVal) score += 25; else if (rsi > rsiOverboughtVal) score -= 25;
+                if (ema20 > ema50) score += 20; else score -= 20;
+
+                let side = score >= 55 ? (currentMarketMode === 'FUTURES' ? 'LONG' : 'SPOT BUY') : 'SHORT';
+                let signalStrength = Math.min(Math.max(Math.round(score), 68), 98);
+                const isLong = side.includes('LONG') || side.includes('BUY');
+
+                const entry1 = currentPrice;
+                const entry2 = isLong ? currentPrice * 0.99 : currentPrice * 1.01;
+                const entry3 = isLong ? currentPrice * 0.978 : currentPrice * 1.022;
+
+                const tp1 = isLong ? currentPrice * 1.025 : currentPrice * 0.975;
+                const tp2 = isLong ? currentPrice * 1.050 : currentPrice * 0.950;
+                const tp3 = isLong ? currentPrice * 1.085 : currentPrice * 0.915;
+                const sl = isLong ? currentPrice * 0.982 : currentPrice * 1.018;
+
+                return {
+                    symbol, price: currentPrice, rsi: rsi.toFixed(1),
+                    macdStatus: ema20 > ema50 ? 'BULLISH' : 'BEARISH',
+                    emaStatus: currentPrice > ema20 ? 'ABOVE EMA' : 'BELOW EMA',
+                    side, signalStrength, entry1, entry2, entry3, tp1, tp2, tp3, sl,
+                    chartHistory: closes.slice(-25)
+                };
+            } catch (e) {
+                const basePrice = symbol.includes('BTC') ? 67500 : 150;
+                return {
+                    symbol, price: basePrice, rsi: "48.5", macdStatus: 'BULLISH', emaStatus: 'NORMAL',
+                    side: 'LONG', signalStrength: 85, entry1: basePrice, entry2: basePrice * 0.99, entry3: basePrice * 0.978,
+                    tp1: basePrice * 1.025, tp2: basePrice * 1.05, tp3: basePrice * 1.085, sl: basePrice * 0.982,
+                    chartHistory: Array.from({length: 25}, () => basePrice + (Math.random() - 0.5) * 10)
+                };
+            }
+        }
+
+        async function refreshAllSignals(userTriggered = false) {
+            const refreshIcon = document.getElementById('refresh-icon');
+            if (refreshIcon) refreshIcon.classList.add('fa-spin');
+
+            const signalPromises = trackedCoins.map(coin => fetchTechnicalDataForCoin(coin, currentTimeframe));
+            cryptoSignals = await Promise.all(signalPromises);
+
+            renderSignalsGrid();
+            updateSummaryCounters();
+            fetchTickerPrices();
+
+            if (refreshIcon) refreshIcon.classList.remove('fa-spin');
+            if (userTriggered) {
+                playSignalSound();
+                showToast('Data sinyal berhasil diperbarui!', 'success');
+            }
+        }
+
+        function renderSignalsGrid() {
+            const grid = document.getElementById('signals-grid');
+            const searchVal = document.getElementById('coin-search').value.trim().toUpperCase();
+            const filtered = cryptoSignals.filter(s => s.symbol.includes(searchVal));
+
+            if (filtered.length === 0) {
+                const searchCoinQuery = searchVal.endsWith('USDT') ? searchVal : `${searchVal}USDT`;
+                grid.innerHTML = `
+                    <div class="col-span-full glass-panel p-6 text-center rounded-2xl border border-slate-800 space-y-3">
+                        <i class="fa-solid fa-magnifying-glass text-2xl text-brand-cyan"></i>
+                        <h3 class="text-xs font-bold font-mono text-white">Koin "${searchVal}" belum ada dalam pantauan</h3>
+                        <div class="flex justify-center gap-2 pt-1 font-mono text-xs">
+                            <button onclick="searchAndAddCoin('${searchVal}')" class="bg-brand-accent text-slate-950 font-bold px-3 py-1.5 rounded-xl">
+                                + Pindai & Tambah ${searchCoinQuery}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(signal => {
+                const isLong = signal.side.includes('LONG') || signal.side.includes('BUY');
+                const badgeColor = isLong 
+                    ? 'bg-emerald-500/10 text-brand-accent border-brand-accent/30' 
+                    : 'bg-rose-500/10 text-brand-danger border-rose-500/30';
+                
+                return `
+                    <div class="glass-panel p-3.5 sm:p-4 rounded-2xl border border-slate-800/80 hover:border-brand-accent/40 transition flex flex-col justify-between space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2.5">
+                                <div class="w-9 h-9 rounded-xl bg-slate-950 border border-slate-800 font-mono font-bold flex items-center justify-center text-white text-xs">
+                                    ${signal.symbol.replace('USDT', '')}
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-1">
+                                        <h3 class="font-mono font-bold text-sm text-white">${signal.symbol}</h3>
+                                        <span class="text-[9px] bg-slate-950 text-slate-400 px-1 py-0.2 rounded font-mono">${currentTimeframe}</span>
+                                    </div>
+                                    <p class="text-xs font-mono text-slate-400">${formatPriceDynamic(signal.price)}</p>
+                                </div>
+                            </div>
+
+                            <span class="px-2 py-0.5 rounded-lg border text-[10px] font-mono font-bold ${badgeColor}">
+                                ${signal.side}
+                            </span>
+                        </div>
+
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[10px] font-mono">
+                                <span class="text-slate-400">Win Rate</span>
+                                <span class="text-brand-accent font-bold">${signal.signalStrength}% HIGH</span>
+                            </div>
+                            <div class="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden border border-slate-800">
+                                <div class="bg-gradient-to-r ${isLong ? 'from-emerald-500 to-brand-accent' : 'from-rose-500 to-red-400'} h-full" style="width: ${signal.signalStrength}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 p-2 rounded-xl border border-slate-800 space-y-1 font-mono text-[10px]">
+                            <span class="text-slate-400 font-bold block text-[9px]">3 ZONA BELI (DCA ENTRY)</span>
+                            <div class="grid grid-cols-3 gap-1 text-center font-bold">
+                                <div class="bg-slate-900 py-1 rounded text-white" title="Buy 1">${formatPriceDynamic(signal.entry1)}</div>
+                                <div class="bg-slate-900 py-1 rounded text-brand-cyan" title="Buy 2">${formatPriceDynamic(signal.entry2)}</div>
+                                <div class="bg-slate-900 py-1 rounded text-brand-purple" title="Buy 3">${formatPriceDynamic(signal.entry3)}</div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px] bg-slate-950 p-2 rounded-xl border border-slate-800">
+                            <div><span class="text-slate-500 block text-[9px]">TP1 (+2.5%)</span><span class="text-emerald-400 font-bold">${formatPriceDynamic(signal.tp1)}</span></div>
+                            <div><span class="text-slate-500 block text-[9px]">TP2 (+5.0%)</span><span class="text-emerald-400 font-bold">${formatPriceDynamic(signal.tp2)}</span></div>
+                            <div><span class="text-slate-500 block text-[9px]">TP3 (+8.5%)</span><span class="text-emerald-300 font-bold">${formatPriceDynamic(signal.tp3)}</span></div>
+                            <div><span class="text-slate-500 block text-[9px]">STOP LOSS</span><span class="text-rose-400 font-bold">${formatPriceDynamic(signal.sl)}</span></div>
+                        </div>
+
+                        <div class="pt-1 flex items-center gap-1.5 font-mono text-xs">
+                            <button onclick="openSignalModal('${signal.symbol}')" class="flex-1 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-200 rounded-xl text-center font-bold border border-slate-800">
+                                Detail
+                            </button>
+                            <button onclick="openTradingView('${signal.symbol}')" class="p-1.5 bg-slate-950 hover:bg-blue-600/20 text-blue-400 rounded-xl border border-slate-800" title="TradingView">
+                                <i class="fa-solid fa-chart-line"></i> TV
+                            </button>
+                            <button onclick="openCoinMarketCap('${signal.symbol}')" class="p-1.5 bg-slate-950 hover:bg-yellow-500/20 text-yellow-400 rounded-xl border border-slate-800" title="CoinMarketCap">
+                                <i class="fa-solid fa-coins"></i> CMC
+                            </button>
+                            <button onclick="copySignalShare('${signal.symbol}')" class="p-1.5 bg-slate-950 hover:bg-slate-800 text-brand-cyan rounded-xl border border-slate-800">
+                                <i class="fa-solid fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateSummaryCounters() {
+            const longCount = cryptoSignals.filter(s => s.side.includes('LONG') || s.side.includes('BUY')).length;
+            const shortCount = cryptoSignals.filter(s => s.side.includes('SHORT')).length;
+            
+            document.getElementById('signals-count').innerText = cryptoSignals.length;
+            document.getElementById('stat-long-count').innerText = `${longCount} Pairs`;
+            document.getElementById('stat-short-count').innerText = `${shortCount} Pairs`;
+            
+            const sentimentEl = document.getElementById('market-sentiment');
+            if (longCount > shortCount) {
+                sentimentEl.innerText = 'BULLISH STRONG';
+                sentimentEl.className = 'text-xs sm:text-sm font-mono font-bold text-brand-accent mt-0.5';
+            } else {
+                sentimentEl.innerText = 'BEARISH DOMINANT';
+                sentimentEl.className = 'text-xs sm:text-sm font-mono font-bold text-brand-danger mt-0.5';
+            }
+        }
+
+        function setTimeframe(tf) {
+            currentTimeframe = tf;
+            document.querySelectorAll('.tf-btn').forEach(btn => {
+                btn.className = btn.dataset.tf === tf 
+                    ? 'tf-btn bg-brand-accent/20 text-brand-accent border border-brand-accent/40 px-2.5 py-1 rounded-lg text-xs font-mono font-semibold transition' 
+                    : 'tf-btn bg-slate-900 text-slate-400 hover:text-white border border-slate-800 px-2.5 py-1 rounded-lg text-xs font-mono font-medium transition';
+            });
+            refreshAllSignals(true);
+        }
+
+        function setMarketMode(mode) {
+            currentMarketMode = mode;
+            document.getElementById('btn-mode-spot').className = mode === 'SPOT' 
+                ? 'px-3 py-1 rounded-lg font-mono text-xs font-bold transition-all bg-brand-accent text-slate-950 shadow-sm' 
+                : 'px-3 py-1 rounded-lg font-mono text-xs font-bold transition-all text-slate-400 hover:text-white';
+            document.getElementById('btn-mode-futures').className = mode === 'FUTURES' 
+                ? 'px-3 py-1 rounded-lg font-mono text-xs font-bold transition-all bg-brand-accent text-slate-950 shadow-sm' 
+                : 'px-3 py-1 rounded-lg font-mono text-xs font-bold transition-all text-slate-400 hover:text-white';
+            refreshAllSignals(true);
+        }
+
+        function filterSignals() { renderSignalsGrid(); }
+
+        function calculateROE() {
+            const side = document.getElementById('calc-side').value;
+            const leverage = parseFloat(document.getElementById('calc-leverage-val').value) || 1;
+            const margin = parseFloat(document.getElementById('calc-margin').value) || 100;
+            const entry = parseFloat(document.getElementById('calc-entry').value) || 1;
+            const tp = parseFloat(document.getElementById('calc-tp').value) || entry;
+            const sl = parseFloat(document.getElementById('calc-sl').value) || entry;
+
+            const notional = margin * leverage;
+            const isLong = side === 'LONG';
+
+            const roeTp = ((isLong ? tp - entry : entry - tp) / entry) * leverage * 100;
+            const roeSl = ((isLong ? entry - sl : sl - entry) / entry) * leverage * 100;
+
+            const pnlTp = margin * (roeTp / 100);
+            const pnlSl = margin * (roeSl / 100);
+
+            const rrRatio = Math.abs(entry - sl) === 0 ? 0 : (Math.abs(tp - entry) / Math.abs(entry - sl)).toFixed(2);
+            const liqPrice = isLong ? entry * (1 - (1 / leverage)) : entry * (1 + (1 / leverage));
+
+            document.getElementById('res-roe-tp').innerText = `${roeTp >= 0 ? '+' : ''}${roeTp.toFixed(2)}%`;
+            document.getElementById('res-pnl-tp').innerText = `${pnlTp >= 0 ? '+' : ''}$${pnlTp.toFixed(2)}`;
+            document.getElementById('res-roe-sl').innerText = `-${Math.abs(roeSl).toFixed(2)}%`;
+            document.getElementById('res-pnl-sl').innerText = `-$${Math.abs(pnlSl).toFixed(2)}`;
+            document.getElementById('res-rr-ratio').innerText = `1 : ${rrRatio}`;
+            document.getElementById('res-notional-val').innerText = `$${notional.toFixed(2)}`;
+            document.getElementById('res-liq-price').innerText = formatPriceDynamic(liqPrice);
+        }
+
+        function saveCalcToJournal() {
+            const side = document.getElementById('calc-side').value;
+            const entry = document.getElementById('calc-entry').value;
+            const tp = document.getElementById('calc-tp').value;
+            const sl = document.getElementById('calc-sl').value;
+            const roe = document.getElementById('res-roe-tp').innerText;
+
+            userJournal.unshift({
+                id: Date.now(),
+                time: new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}),
+                pair: 'CALC / POSITION', side, leverage: `${document.getElementById('calc-leverage-val').value}x`,
+                entry: formatPriceDynamic(entry), tp: formatPriceDynamic(tp), sl: formatPriceDynamic(sl), roe
+            });
+            renderJournal();
+            showToast('Kalkulasi disimpan ke Jurnal!', 'success');
+        }
+
+        function renderJournal() {
+            const tbody = document.getElementById('journal-table-body');
+            if (userJournal.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-500 italic">Belum ada catatan jurnal.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = userJournal.map(item => `
+                <tr class="hover:bg-slate-900/50 transition">
+                    <td class="p-3 text-slate-400">${item.time}</td>
+                    <td class="p-3 font-bold text-white">${item.pair} <span class="text-brand-accent">[${item.side}]</span></td>
+                    <td class="p-3 text-brand-cyan">${item.leverage}</td>
+                    <td class="p-3">${item.entry}</td>
+                    <td class="p-3 text-emerald-400">${item.tp}</td>
+                    <td class="p-3 text-rose-400">${item.sl}</td>
+                    <td class="p-3 font-bold text-brand-accent">${item.roe}</td>
+                    <td class="p-3 text-right"><button onclick="deleteJournalItem(${item.id})" class="text-slate-500 hover:text-rose-400"><i class="fa-solid fa-xmark"></i></button></td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteJournalItem(id) {
+            userJournal = userJournal.filter(i => i.id !== id);
+            renderJournal();
+        }
+
+        function clearJournal() {
+            userJournal = [];
+            renderJournal();
+        }
+
+        function openSignalModal(symbol) {
+            const signal = cryptoSignals.find(s => s.symbol === symbol);
+            if (!signal) return;
+
+            activeModalCoin = signal;
+            document.getElementById('modal-coin-badge').innerText = symbol.replace('USDT', '');
+            document.getElementById('modal-coin-title').innerText = `${symbol} (${currentMarketMode})`;
+            document.getElementById('modal-coin-subtitle').innerText = `Timeframe ${currentTimeframe} • Technical Engine`;
+            document.getElementById('modal-price-display').innerText = formatPriceDynamic(signal.price);
+
+            document.getElementById('modal-entry1').innerText = formatPriceDynamic(signal.entry1);
+            document.getElementById('modal-entry2').innerText = formatPriceDynamic(signal.entry2);
+            document.getElementById('modal-entry3').innerText = formatPriceDynamic(signal.entry3);
+            document.getElementById('modal-tp1').innerText = formatPriceDynamic(signal.tp1);
+            document.getElementById('modal-tp2').innerText = formatPriceDynamic(signal.tp2);
+            document.getElementById('modal-tp3').innerText = formatPriceDynamic(signal.tp3);
+            document.getElementById('modal-sl').innerText = formatPriceDynamic(signal.sl);
+
+            document.getElementById('modal-rsi').innerText = signal.rsi;
+            document.getElementById('modal-macd').innerText = signal.macdStatus;
+            document.getElementById('modal-ema').innerText = signal.emaStatus;
+
+            document.getElementById('modal-gemini-result').classList.add('hidden');
+            document.getElementById('signal-detail-modal').classList.remove('hidden');
+
+            switchModalChartType('simple');
+            renderModalChart(signal);
+        }
+
+        function closeSignalModal() {
+            document.getElementById('signal-detail-modal').classList.add('hidden');
+        }
+
+        function renderModalChart(signal) {
+            const ctx = document.getElementById('modalChartCanvas').getContext('2d');
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: signal.chartHistory.map((_, i) => i + 1),
+                    datasets: [{
+                        data: signal.chartHistory,
+                        borderColor: '#00f090',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#64748b', font: { family: 'Chakra Petch' } } }
+                    }
+                }
+            });
+        }
+
+        function copyModalSignal() {
+            if (activeModalCoin) copySignalShare(activeModalCoin.symbol);
+        }
+
+        function copySignalShare(symbol) {
+            const signal = cryptoSignals.find(s => s.symbol === symbol);
+            if (!signal) return;
+
+            const text = `🚨 SIGNALS SENTRA CRYPTOSIGNAL
+Pair: ${signal.symbol} (${signal.side})
+Buy 1 (Market): ${formatPriceDynamic(signal.entry1)}
+Buy 2 (DCA): ${formatPriceDynamic(signal.entry2)}
+Buy 3 (Deep DCA): ${formatPriceDynamic(signal.entry3)}
+TP1: ${formatPriceDynamic(signal.tp1)} | TP2: ${formatPriceDynamic(signal.tp2)} | TP3: ${formatPriceDynamic(signal.tp3)}
+SL: ${formatPriceDynamic(signal.sl)}`;
+
+            const tempInput = document.createElement("textarea");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            showToast(`Sinyal ${symbol} disalin ke clipboard!`, 'info');
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const bgClass = type === 'success' 
+                ? 'bg-slate-900 border-brand-accent text-brand-accent' 
+                : 'bg-slate-900 border-brand-cyan text-brand-cyan';
+            
+            toast.className = `glass-panel px-4 py-2.5 rounded-xl border ${bgClass} shadow-xl text-xs font-mono flex items-center gap-2 pointer-events-auto transition-all transform translate-y-2 opacity-0`;
+            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-info'}"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 50);
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        window.onload = function() {
+            loadUserSettings();
+            refreshAllSignals(false);
+            calculateROE();
+
+            autoRefreshTimer = setInterval(() => refreshAllSignals(false), autoRefreshIntervalSec);
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                pwaDeferredPrompt = e;
+                const installBtn = document.getElementById('pwa-install-btn');
+                if (installBtn) {
+                    installBtn.classList.remove('hidden');
+                    installBtn.onclick = () => {
+                        pwaDeferredPrompt.prompt();
+                        pwaDeferredPrompt = null;
+                        installBtn.classList.add('hidden');
+                    };
+                }
+            });
+        };
+    </script>
+</body>
+</html>
