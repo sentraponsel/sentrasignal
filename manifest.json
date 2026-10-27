@@ -1,0 +1,18 @@
+{
+"name": "SENTRA CRYPTOSIGNAL",
+"short_name": "SENTRA",
+"description": "Real-Time Crypto Intelligence Engine & Trading Signals",
+"start_url": "./index.html",
+"display": "standalone",
+"background_color": "#070a11",
+"theme_color": "#070a11",
+"orientation": "any",
+"icons": [
+{
+"src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%23070a11'/><polygon points='256,40 450,150 450,360 256,470 62,360 62,150' fill='%230e1626' stroke='%2300f090' stroke-width='14'/><path d='M160,220 C160,160 240,150 256,180 C270,210 160,230 160,300 C160,360 256,360 256,300' fill='none' stroke='%2300f090' stroke-width='36' stroke-linecap='round'/><path d='M352,220 C352,170 290,160 270,190 M270,290 C290,330 352,310 352,260' fill='none' stroke='%2300d2ff' stroke-width='36' stroke-linecap='round'/></svg>",
+"sizes": "192x192 512x512",
+"type": "image/svg+xml",
+"purpose": "any maskable"
+}
+]
+}
